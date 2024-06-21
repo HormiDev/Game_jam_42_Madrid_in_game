@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private float           camZoom;
     private Vector3         camTransform;
     private Camera          cam;
+    public  GameObject[]    towers;
 
     public  string  printFriend()
     {
@@ -80,12 +81,25 @@ public class GameManager : MonoBehaviour
         continent.GetComponent<Continent>().setFriend();
         continent.transform.parent = continers[1].transform;
     }
+
+    void    ShuffleTowers()
+    {
+        int i = 0;
+        towers = GameObject.FindGameObjectsWithTag("Tower");
+        while(i < towers.Length)
+        {
+            if (i % 2 == 0)
+                towers[i].transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+            i++;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         boolConsole = false;
         cam = Camera.main;
         cam.gameObject.GetComponent<CameraZoom>().active = true;
+        ShuffleTowers();
     }
 
     void    enableConsole()

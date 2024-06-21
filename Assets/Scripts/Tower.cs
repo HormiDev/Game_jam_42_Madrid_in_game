@@ -35,7 +35,7 @@ public class Tower : MonoBehaviour
     {
         mat = GetComponent<MeshRenderer>();
         mat.materials[1] = disableLed;
-        ft_disableLed();
+        ft_enemyLed();
     }
 
     // Update is called once per frame

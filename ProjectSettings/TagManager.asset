@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Country
+  - Tower
   layers:
   - Default
   - TransparentFX

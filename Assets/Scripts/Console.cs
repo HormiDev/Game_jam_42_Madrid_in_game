@@ -30,6 +30,7 @@ public class Console : MonoBehaviour
             {
                 if (cmd.Contains("take"))
                 {
+                    
 
                 }
                 else if (cmd.Contains("deal"))
