@@ -50,7 +50,7 @@ public class CardShuffle : MonoBehaviour
 
 	int[] GenerateRandomArray()
 	{
-		int[] array = new int[12] { 1, 1, 1, 1, 2, 3, -1, -1, -1, -2, -2, -3 };
+		int[] array = new int[12] { 5, 5, 5, 5, 8, 10, -5, -5, -5, -8, -8, -10 }; // le voy a subir esto porque lo que ganas y pierdes es una basura
 		List<int> tempList = new List<int>(array);
 		int[] randomArray = new int[12];
 

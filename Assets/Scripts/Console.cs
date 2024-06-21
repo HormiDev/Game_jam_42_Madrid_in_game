@@ -15,6 +15,7 @@ public class Console : MonoBehaviour
     public  GameObject      gameManager;
     public  bool            waiting = false;
     public  float           counter = 0;
+    public  bool            doOnce;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +27,14 @@ public class Console : MonoBehaviour
     {
         gameManager.GetComponent<GameManager>().editPlayer(gameManager.GetComponent<GameManager>().cards.GetNextCard());
         waiting = true;
+        doOnce = true;
     }
 
     void    deal()
     {
         gameManager.GetComponent<GameManager>().editEnemy(gameManager.GetComponent<GameManager>().cards.GetNextCard());
         waiting = true;
+        doOnce = true;
     }
 
     // Update is called once per frame
@@ -96,10 +99,13 @@ public class Console : MonoBehaviour
         if (waiting)
         {
             counter += 1 * Time.deltaTime;
-            if ((int)counter % 4 == 0)
-                tex.SetText(tex.text + "\n...");
+            if (counter > 2 && doOnce)
+            {
+                tex.SetText(tex.text + "...");
+                doOnce = false;
+            }
         }
-        if (counter > 10)
+        if (counter > 4)
         {
             waiting = false;
             counter = 0;

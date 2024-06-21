@@ -38,60 +38,13 @@ public class GameManager : MonoBehaviour
             {
                 GameObject  tmp;
 
-                if (towerFriend.Count > 0)
+                if (towerFriend.Count > 0 && (towerEnemy.Count - (i - value) > 0))
                 {
                     tmp = towerFriend[i];
                     towerFriend.Remove(tmp);
                     towerEnemy.Add(tmp);
                     tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
-                }
-                else
-                    gameOver();
-                i++;
-
-            }
-        }
-        else
-        {
-            int i = 0;
-
-            while (i < value)
-            {
-                GameObject  tmp;
-
-                if (towerEnemy.Count > 0)
-                {
-                    tmp = towerEnemy[i];
-                    towerEnemy.Remove(tmp);
-                    towerFriend.Add(tmp);
-                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
-                }
-                else
-                    win();
-                i++;
-
-            }    
-        }
-
-    }
-
-    public  void    editEnemy(int value)
-    {
-       if (value < 0)
-        {
-            value = -value;
-            int i = 0;
-
-            while (i < value)
-            {
-                GameObject  tmp;
-
-                if (towerFriend.Count > 0)
-                {
-                    tmp = towerFriend[i];
-                    towerFriend.Remove(tmp);
-                    towerEnemy.Add(tmp);
-                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                    print("you loose " + value + " towers");
                 }
                 else
                     gameOver();
@@ -113,6 +66,57 @@ public class GameManager : MonoBehaviour
                     towerEnemy.Remove(tmp);
                     towerFriend.Add(tmp);
                     tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+                    print("you gain " + value + " towers");
+                }
+                else
+                    win();
+                i++;
+
+            }    
+        }
+
+    }
+
+    public  void    editEnemy(int value)
+    {
+       if (value < 0)
+        {
+            value = -value;
+            int i = 0;
+
+            while (i < value)
+            {
+                GameObject  tmp;
+
+                if (towerFriend.Count > 0 && (towerFriend.Count - (i - value) > 0))
+                {
+                    tmp = towerFriend[i];
+                    towerFriend.Remove(tmp);
+                    towerEnemy.Add(tmp);
+                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                    print("you loose " + value + " towers");
+                }
+                else
+                    gameOver();
+                i++;
+
+            }
+        }
+        else
+        {
+            int i = 0;
+
+            while (i < value)
+            {
+                GameObject  tmp;
+
+                if (towerEnemy.Count > 0 && (towerEnemy.Count - (i - value) > 0))
+                {
+                    tmp = towerEnemy[i];
+                    towerEnemy.Remove(tmp);
+                    towerFriend.Add(tmp);
+                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+                    print("you gain " + value + " towers");
                 }
                 else
                     win();
