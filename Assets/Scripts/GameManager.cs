@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
         camZoom = cam.orthographicSize;
         camTransform = cam.gameObject.transform.position;
         cam.orthographicSize = 500;
-        cam.gameObject.Transform.position = new Vector3(0, cam.transform.position.y, 0);
+        cam.gameObject.transform.position = new Vector3(0, cam.transform.position.y, 0);
         cam.gameObject.GetComponent<CameraZoom>().active = false;
     }
 
