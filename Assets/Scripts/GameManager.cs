@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,114 @@ public class GameManager : MonoBehaviour
     private Vector3         camTransform;
     private Camera          cam;
     public  GameObject[]    towers;
+    private List<GameObject>    towerFriend = new List<GameObject>();
+    public  List<GameObject>    towerEnemy = new List<GameObject>();
+    public CardShuffle     cards;
+
+    public  void    gameOver()
+    {
+        SceneManager.LoadScene("GameOver"); 
+    }
+
+    public  void    win()
+    {
+        SceneManager.LoadScene("Win"); 
+    }
+
+    public  void    editPlayer(int value)
+    {
+        if (value < 0)
+        {
+            value = -value;
+            int i = 0;
+
+            while (i < value)
+            {
+                GameObject  tmp;
+
+                if (towerFriend.Count > 0)
+                {
+                    tmp = towerFriend[i];
+                    towerFriend.Remove(tmp);
+                    towerEnemy.Add(tmp);
+                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                }
+                else
+                    gameOver();
+                i++;
+
+            }
+        }
+        else
+        {
+            int i = 0;
+
+            while (i < value)
+            {
+                GameObject  tmp;
+
+                if (towerEnemy.Count > 0)
+                {
+                    tmp = towerEnemy[i];
+                    towerEnemy.Remove(tmp);
+                    towerFriend.Add(tmp);
+                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                }
+                else
+                    win();
+                i++;
+
+            }    
+        }
+
+    }
+
+    public  void    editEnemy(int value)
+    {
+       if (value < 0)
+        {
+            value = -value;
+            int i = 0;
+
+            while (i < value)
+            {
+                GameObject  tmp;
+
+                if (towerFriend.Count > 0)
+                {
+                    tmp = towerFriend[i];
+                    towerFriend.Remove(tmp);
+                    towerEnemy.Add(tmp);
+                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                }
+                else
+                    gameOver();
+                i++;
+
+            }
+        }
+        else
+        {
+            int i = 0;
+
+            while (i < value)
+            {
+                GameObject  tmp;
+
+                if (towerEnemy.Count > 0)
+                {
+                    tmp = towerEnemy[i];
+                    towerEnemy.Remove(tmp);
+                    towerFriend.Add(tmp);
+                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+                }
+                else
+                    win();
+                i++;
+
+            }    
+        }
+    }
 
     public  string  printFriend()
     {
@@ -89,7 +198,12 @@ public class GameManager : MonoBehaviour
         while(i < towers.Length)
         {
             if (i % 2 == 0)
+            {
                 towers[i].transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+                towerFriend.Add(towers[i]);
+            }
+            else
+                towerEnemy.Add(towers[i]);
             i++;
         }
     }
@@ -100,6 +214,7 @@ public class GameManager : MonoBehaviour
         cam = Camera.main;
         cam.gameObject.GetComponent<CameraZoom>().active = true;
         ShuffleTowers();
+        cards = GetComponent<CardShuffle>();
     }
 
     void    enableConsole()

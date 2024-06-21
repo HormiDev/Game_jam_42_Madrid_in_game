@@ -13,11 +13,25 @@ public class Console : MonoBehaviour
     private string          defaultTxt = "Type 'help' to read the instructions, or simply type 'take' or 'deal' to start this duel...\n\n>_ ";
     private GameObject[]    updates;
     public  GameObject      gameManager;
+    public  bool            waiting = false;
+    public  float           counter = 0;
     // Start is called before the first frame update
     void Start()
     {
         tex = GetComponent<TMP_Text>();
         tex.SetText(defaultTxt);
+    }
+
+    void    take()
+    {
+        gameManager.GetComponent<GameManager>().editPlayer(gameManager.GetComponent<GameManager>().cards.GetNextCard());
+        waiting = true;
+    }
+
+    void    deal()
+    {
+        gameManager.GetComponent<GameManager>().editEnemy(gameManager.GetComponent<GameManager>().cards.GetNextCard());
+        waiting = true;
     }
 
     // Update is called once per frame
@@ -30,12 +44,11 @@ public class Console : MonoBehaviour
             {
                 if (cmd.Contains("take"))
                 {
-                    
-
+                    take();
                 }
                 else if (cmd.Contains("deal"))
                 {
-
+                    deal();
                 }
                 else if (cmd.Contains("help"))
                 {
@@ -49,8 +62,10 @@ public class Console : MonoBehaviour
                 {
                     tex.SetText(tex.text + "\n" + cmd + ": command not found\n");      
                 }
-
-                tex.SetText(tex.text + "\n>_ ");
+                if (!waiting)
+                    tex.SetText(tex.text + "\n>_ ");
+                else
+                    tex.SetText(tex.text + "\n...\n");
                 if (cmd.Contains("clear"))
                     tex.SetText(defaultTxt);
                 cmd = "";
@@ -64,7 +79,7 @@ public class Console : MonoBehaviour
                     tex.SetText(tex.text.Remove(tex.text.Length - 1));
                 }
             }
-            else
+            else if (!waiting)
             {
                 char[]    c = Input.inputString.ToCharArray();
 
@@ -77,6 +92,18 @@ public class Console : MonoBehaviour
                     cmd = cmd + keyPressed;
                 }
             }
+        }
+        if (waiting)
+        {
+            counter += 1 * Time.deltaTime;
+            if ((int)counter % 4 == 0)
+                tex.SetText(tex.text + "\n...");
+        }
+        if (counter > 10)
+        {
+            waiting = false;
+            counter = 0;
+            tex.SetText(tex.text + "\n>_ ");
         }
     }
 }
