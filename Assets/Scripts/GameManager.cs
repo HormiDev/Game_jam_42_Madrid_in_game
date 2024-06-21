@@ -40,11 +40,16 @@ public class GameManager : MonoBehaviour
 
                 if (towerFriend.Count > 0 && (towerEnemy.Count - (i - value) > 0))
                 {
-                    tmp = towerFriend[i];
-                    towerFriend.Remove(tmp);
-                    towerEnemy.Add(tmp);
-                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
-                    print("you loose " + value + " towers");
+                    if (i < towerFriend.Count)
+                    {
+                        tmp = towerFriend[i];
+                        towerFriend.Remove(tmp);
+                        towerEnemy.Add(tmp);
+                        tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                        print("you loose " + value + " towers");
+                    }
+                    else
+                        gameOver();     
                 }
                 else
                     gameOver();
@@ -60,13 +65,18 @@ public class GameManager : MonoBehaviour
             {
                 GameObject  tmp;
 
-                if (towerEnemy.Count > 0)
+                if (i < towerEnemy.Count)
                 {
-                    tmp = towerEnemy[i];
-                    towerEnemy.Remove(tmp);
-                    towerFriend.Add(tmp);
-                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
-                    print("you gain " + value + " towers");
+                    if (i < towerFriend.Count)
+                    {
+                        tmp = towerEnemy[i];
+                        towerEnemy.Remove(tmp);
+                        towerFriend.Add(tmp);
+                        tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+                        print("you gain " + value + " towers");
+                    }
+                    else
+                        win();                   
                 }
                 else
                     win();
@@ -90,11 +100,16 @@ public class GameManager : MonoBehaviour
 
                 if (towerFriend.Count > 0 && (towerFriend.Count - (i - value) > 0))
                 {
-                    tmp = towerFriend[i];
-                    towerFriend.Remove(tmp);
-                    towerEnemy.Add(tmp);
-                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
-                    print("you loose " + value + " towers");
+                    if (i < towerFriend.Count)
+                    {
+                        tmp = towerFriend[i];
+                        towerFriend.Remove(tmp);
+                        towerEnemy.Add(tmp);
+                        tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_enemyLed();
+                        print("you loose " + value + " towers");
+                    }
+                    else
+                        gameOver(); 
                 }
                 else
                     gameOver();
@@ -112,11 +127,17 @@ public class GameManager : MonoBehaviour
 
                 if (towerEnemy.Count > 0 && (towerEnemy.Count - (i - value) > 0))
                 {
-                    tmp = towerEnemy[i];
-                    towerEnemy.Remove(tmp);
-                    towerFriend.Add(tmp);
-                    tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
-                    print("you gain " + value + " towers");
+                    if (i < towerEnemy.Count)
+                    {
+
+                        tmp = towerEnemy[i];
+                        towerEnemy.Remove(tmp);
+                        towerFriend.Add(tmp);
+                        tmp.transform.GetChild(0).gameObject.GetComponent<Tower>().ft_friendLed();
+                        print("you gain " + value + " towers");
+                    }
+                    else
+                        win();
                 }
                 else
                     win();
