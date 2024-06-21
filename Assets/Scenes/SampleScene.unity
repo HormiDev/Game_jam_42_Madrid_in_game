@@ -2285,7 +2285,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0, g: 0.13816419, b: 0.646622, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2359,6 +2359,7 @@ MonoBehaviour:
   maxZoom: 500
   panLimitMin: {x: -500, y: -200}
   panLimitMax: {x: 900, y: 200}
+  active: 0
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0

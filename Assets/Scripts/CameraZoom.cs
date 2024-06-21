@@ -11,7 +11,7 @@ public class CameraZoom : MonoBehaviour
     public float maxZoom = 20f;              // Máximo nivel de zoom
     public Vector2 panLimitMin;              // Límites mínimos para panning (x, y)
     public Vector2 panLimitMax;              // Límites máximos para panning (x, y)
-
+    public  bool    active = true;
     private Camera cam;
 
     void Start()
@@ -26,9 +26,12 @@ public class CameraZoom : MonoBehaviour
 
     void Update()
     {
-        HandlePan();
-        HandleZoom();
-        limits();
+        if (active)
+        {
+            HandlePan();
+            HandleZoom();
+            limits();
+        }
     }
 
     void HandlePan()

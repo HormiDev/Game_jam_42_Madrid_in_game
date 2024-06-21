@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
     {
         boolConsole = false;
         cam = Camera.main;
+        cam.gameObject.GetComponent<CameraZoom>().active = true;
     }
 
     void    enableConsole()
@@ -93,7 +94,8 @@ public class GameManager : MonoBehaviour
         camZoom = cam.orthographicSize;
         camTransform = cam.gameObject.transform.position;
         cam.orthographicSize = 500;
-        camTransform = new Vector3(0, cam.transform.position.y, 0);
+        cam.gameObject.Transform.position = new Vector3(0, cam.transform.position.y, 0);
+        cam.gameObject.GetComponent<CameraZoom>().active = false;
     }
 
     void    disableConsole()
@@ -101,6 +103,7 @@ public class GameManager : MonoBehaviour
         console.SetActive(false);
         cam.transform.position = camTransform;
         cam.orthographicSize = camZoom;
+        cam.gameObject.GetComponent<CameraZoom>().active = true;
     }
     // Update is called once per frame
     void Update()
