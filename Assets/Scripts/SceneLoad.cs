@@ -14,6 +14,16 @@ public class SceneLoad : MonoBehaviour
     {
         SceneManager.LoadScene("Start"); 
     }
+
+	public  void    PressCredits()
+	{
+		SceneManager.LoadScene("Credits"); 
+	}
+
+	public  void    Exit()
+	{
+		Application.Quit();
+	}
     // Start is called before the first frame update
     void Start()
     {

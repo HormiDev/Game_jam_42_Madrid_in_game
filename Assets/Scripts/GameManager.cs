@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private List<GameObject>    towerFriend = new List<GameObject>();
     public  List<GameObject>    towerEnemy = new List<GameObject>();
     public CardShuffle     cards;
+	private GameObject audioManagerObject;
+	private AudioMananger audioManager;
 
     public  void    gameOver()
     {
@@ -240,6 +242,8 @@ public class GameManager : MonoBehaviour
         cam.gameObject.GetComponent<CameraZoom>().active = true;
         ShuffleTowers();
         cards = GetComponent<CardShuffle>();
+		audioManagerObject = GameObject.Find("Audio Source");
+		audioManager = audioManagerObject.GetComponent<AudioMananger>();
     }
 
     void    enableConsole()
@@ -267,8 +271,11 @@ public class GameManager : MonoBehaviour
             if (boolConsole)
                 disableConsole();
             else
+			{
                 enableConsole();
-            boolConsole = !boolConsole;
+				audioManager.PlayAudio(2);
+			}
+			boolConsole = !boolConsole;
         }
     }
 }

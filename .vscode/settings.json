@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "UNITY_PLAGUEINC.sln"
+    "dotnet.defaultSolution": "Game_jam_42_Madrid_in_game.sln"
 }

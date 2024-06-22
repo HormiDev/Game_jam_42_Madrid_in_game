@@ -10,29 +10,39 @@ public class Console : MonoBehaviour
 {
     private TMP_Text        tex;
     private string          cmd = "";
-    private string          defaultTxt = "Type 'help' to read the instructions, or simply type 'take' or 'deal' to start this duel...\n\n>_ ";
+    private string          defaultTxt = "Type 'help' to read the instructions, or simply type 'take' or 'deal' to start this war...\n\n>_ ";
     private GameObject[]    updates;
     public  GameObject      gameManager;
     public  bool            waiting = false;
     public  float           counter = 0;
     public  bool            doOnce;
+	private int 		    num_towers = 0;
+	private GameObject audioManagerObject;
+	private AudioMananger audioManager;
+	private int num_interations = 0;
     // Start is called before the first frame update
     void Start()
     {
         tex = GetComponent<TMP_Text>();
         tex.SetText(defaultTxt);
+		audioManagerObject = GameObject.Find("Audio Source");
+		audioManager = audioManagerObject.GetComponent<AudioMananger>();
     }
 
     void    take()
     {
-        gameManager.GetComponent<GameManager>().editPlayer(gameManager.GetComponent<GameManager>().cards.GetNextCard());
+		num_towers = gameManager.GetComponent<GameManager>().cards.GetNextCard();
+        gameManager.GetComponent<GameManager>().editPlayer(num_towers);
+		print_take(num_towers);
         waiting = true;
         doOnce = true;
     }
 
     void    deal()
     {
-        gameManager.GetComponent<GameManager>().editEnemy(gameManager.GetComponent<GameManager>().cards.GetNextCard());
+		num_towers = gameManager.GetComponent<GameManager>().cards.GetNextCard();
+        gameManager.GetComponent<GameManager>().editEnemy(num_towers);
+		print_deal(num_towers);
         waiting = true;
         doOnce = true;
     }
@@ -55,7 +65,7 @@ public class Console : MonoBehaviour
                 }
                 else if (cmd.Contains("help"))
                 {
-                        tex.SetText("\n\t    ------H E L P------\nTake: With this command, you take the update for yourself, and one of your towers gets upgraded. By taking this action, you skip your opponent's turn only if you get an update without a virus. If not, you get the virus and lose your turn.\n\nDeal: With this command, you give the update to your opponent, and one of their towers gets upgraded. \n\nclear: clear terminal\n");
+                        tex.SetText("\n\t    ------H E L P------\nTake: With this command, you take the update for yourself, and one of your towers gets upgraded. By taking this action, you skip your opponent's turn only if you get an update without a sabotaje. If not, you get the virus and lose your turn.\n\nDeal: With this command, you give the update to your opponent, and one of their towers gets upgraded. \n\nclear: clear terminal\n");
                 }
                 else if (cmd.Contains("42"))
                 {
@@ -66,9 +76,13 @@ public class Console : MonoBehaviour
                     tex.SetText(tex.text + "\n" + cmd + ": command not found\n");      
                 }
                 if (!waiting)
+				{
                     tex.SetText(tex.text + "\n>_ ");
-                else
+				}
+				else
+				{
                     tex.SetText(tex.text + "\n...\n");
+				}
                 if (cmd.Contains("clear"))
                     tex.SetText(defaultTxt);
                 cmd = "";
@@ -108,8 +122,78 @@ public class Console : MonoBehaviour
         if (counter > 4)
         {
             waiting = false;
+			num_towers = gameManager.GetComponent<GameManager>().cards.GetNextCard();
+			gameManager.GetComponent<GameManager>().editEnemy(num_towers);
+			num_interations++;
+			if (num_interations == 3)
+			{
+				num_interations = 0;
+				tex.SetText(defaultTxt);
+			}
+			print_enemy(num_towers);
             counter = 0;
             tex.SetText(tex.text + "\n>_ ");
         }
     }
+
+	void print_take(int n)
+	{
+		if (n > 0)
+		{
+			audioManager.PlayAudio(0);
+			if (n > 1)
+				tex.SetText(tex.text + " you gain " + n + " towers :)\n");
+			else
+				tex.SetText(tex.text + " you gain " + n + " tower :)\n");
+		}
+		else
+		{
+			audioManager.PlayAudio(1);
+			if (n < -1)
+				tex.SetText(tex.text + " you lose " + (n * -1) + " towers :(\n");
+			else
+				tex.SetText(tex.text + " you lose " + (n * -1) + " tower :(\n");
+		}
+	}
+
+	void print_deal(int n)
+	{
+		if (n > 0)
+		{
+			audioManager.PlayAudio(0);
+			if (n > 1)
+				tex.SetText(tex.text + " your opponent loses " + n + " towers :)\n");
+			else
+				tex.SetText(tex.text + " your opponent loses " + n + " tower :)\n");
+		}
+		else
+		{
+			audioManager.PlayAudio(1);
+			if (n < -1)
+				tex.SetText(tex.text + " your opponent gains " + (n * -1) + " towers :(\n");
+			else
+				tex.SetText(tex.text + " your opponent gains " + (n * -1) + " tower :(\n");
+		}
+	}
+
+	void print_enemy(int n)
+	{
+		if (n > 0)
+		{
+			audioManager.PlayAudio(0);
+			if (n > 1)
+				tex.SetText(tex.text + "\nyour opponent loses " + n + " towers :)\n");
+			else
+				tex.SetText(tex.text + "\nyour opponent loses " + n + " tower :)\n");
+		}
+		else
+		{
+			audioManager.PlayAudio(1);
+			if (n < -1)
+				tex.SetText(tex.text + "\nyour opponent gains " + (n * -1) + " towers :(\n");
+			else
+				tex.SetText(tex.text + "\nyour opponent gains " + (n * -1) + " tower :(\n");
+		}
+	}
 }
+
